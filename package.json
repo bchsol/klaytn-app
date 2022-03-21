@@ -1,0 +1,63 @@
+{
+  "name": "klaytn-contract",
+  "version": "1.0.0",
+  "description": "various contracts for Klaytn",
+  "repository": "https://github.com/klaytn/klaytn-contracts.git",
+  "keywords": [
+    "solidity",
+    "klaytn",
+    "smart",
+    "contracts"
+  ],
+  "author": "Klaytn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/klaytn/klaytn-contracts/issues"
+  },
+  "homepage": "https://github.com/klaytn/klaytn-contracts",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@types/react-loading-overlay": "^1.0.1",
+    "caver-js": "^1.6.8",
+    "caver-js-ext-kas": "^1.0.1",
+    "javascript-time-ago": "^2.3.13",
+    "klip-sdk": "^2.0.1",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.2.1",
+    "react-json-view": "^1.21.3",
+    "react-qr-code": "^2.0.3",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.2.2",
+    "react-scripts": "^5.0.0",
+    "react-spinners": "^0.11.0",
+    "react-time-ago": "^7.1.9",
+    "redux-actions": "^2.6.5",
+    "redux-saga-routines": "^3.2.3",
+    "truffle-hdwallet-provider-klaytn": "^1.0.13-a"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "ganache-cli": "^6.12.1",
+    "openzeppelin-test-helpers": "^0.3.2",
+    "truffle": "^5.1.23",
+    "truffle-assertions": "^0.9.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "main": "index.js"
+}
