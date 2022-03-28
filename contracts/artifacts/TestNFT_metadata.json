@@ -1091,7 +1091,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/SmartContract.sol": "TestNFT"
+			"contracts/nftMintContract.sol": "TestNFT"
 		},
 		"evmVersion": "constantinople",
 		"libraries": {},
@@ -1102,13 +1102,6 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/SmartContract.sol": {
-			"keccak256": "0x6c030112d246010a7fca8f3a29b7eb88f9d512456a835c5d2ca8442eb05700d0",
-			"urls": [
-				"bzz-raw://224a878152260979fe26f50b36d0fe338c1616bbef79f0a7411c0adaa983fd5e",
-				"dweb:/ipfs/QmRLcjAvfdb3RMtRf2j3WA8MToPV1NEzRWUTNst1c5go5p"
-			]
-		},
 		"contracts/drafts/Counters.sol": {
 			"keccak256": "0x5eb69360d3441ab2ee799bd7c007cccbffb0896f12b2dfe1456193e2aa180a11",
 			"urls": [
@@ -1135,6 +1128,13 @@
 			"urls": [
 				"bzz-raw://31113152e1ddb78fe7a4197f247591ca894e93f916867beb708d8e747b6cc74f",
 				"dweb:/ipfs/QmbZaJyXdpsYGykVhHH9qpVGQg9DGCxE2QufbCUy3daTgq"
+			]
+		},
+		"contracts/nftMintContract.sol": {
+			"keccak256": "0x9122f079a049356af7b61693b464794ae2cfdf069f6b2cb8c2ca668e13daeb94",
+			"urls": [
+				"bzz-raw://227e4d5be0f898403e18e17b3a7734362b9ee4e95d09f76adea4dd4a2a7a9f25",
+				"dweb:/ipfs/QmeLxLbUKkxZdWoigqcaAdUmi4rkpRoF2J5dCmmyC6CRQU"
 			]
 		},
 		"contracts/ownership/Ownable.sol": {

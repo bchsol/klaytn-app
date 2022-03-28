@@ -6,12 +6,11 @@ import "./ownership/Ownable.sol";
 import "./utils/String.sol";
 
 contract TestNFT is KIP17Full, KIP17Burnable, Ownable{
-    
     using String for uint256;
     string public baseURI;     // Image URI
     string public baseExtension = ".json";  // Image file format
     uint256 public maxSupply = 99;
-    uint256 public maxMintAmount = 1;       // Public Mint Limit
+    uint256 public maxMintAmount = 10;       // Public Mint Limit
     uint256 public cost;            // Klay
     uint256 public nftPerAddressLimit = 1;  // Whitelist Mint Limit
     bool public paused = false;     // Mint Pause

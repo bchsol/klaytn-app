@@ -1,5 +1,5 @@
-let pkey = "0x3327da0d0bf9af1cab4e8ef245d9fe62fdfef58a8828044bc4be5759f7390d37";
-let addr = "0x150d78a12c015bde7e3319a3ab45fbb3cb3d40ca";
+let pkey = "";
+let addr = "";
 
 const CONTRACT = require("../build/contracts/TestNFT.json");
 
