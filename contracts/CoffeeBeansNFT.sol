@@ -1,27 +1,27 @@
-pragma solidity ^0.5.6;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-import "./token/KIP17/KIP17Full.sol";
-import "./token/KIP17/KIP17Burnable.sol";
-import "./ownership/Ownable.sol";
-import "./utils/String.sol";
+import "@klaytn/contracts/contracts/KIP/token/KIP17/extensions/KIP17Enumerable.sol";
+import "@klaytn/contracts/contracts/access/Ownable.sol";
+import "@klaytn/contracts/contracts/utils/Strings.sol";
 
-contract TestNFT is KIP17Full, KIP17Burnable, Ownable{
-    using String for uint256;
-    string public baseURI;     // Image URI
-    string public baseExtension = ".json";  // Image file format
-    uint256 public maxSupply = 99;
-    uint256 public maxMintAmount = 10;       // Public Mint Limit
-    uint256 public cost;            // Klay
-    uint256 public nftPerAddressLimit = 1;  // Whitelist Mint Limit
-    bool public paused = false;     // Mint Pause
+contract CoffeeBeansNFT is KIP17Enumerable, Ownable{
+    using Strings for uint256;
+    string public baseURI;
+    string public baseExtension = ".json";
+    uint256 public maxSupply = 40;
+    uint256 public maxMintAmount = 3;
+    uint256 public mintPrice = 0;  // Klay
+    uint256 public nftPerAddressLimit = 1;
+    bool public paused = false;
 
-    bool public revealed = false;
+    bool public revealed = true;
     string public notRevealedUri;
 
     bool public onlyWhitelisted = false;
     mapping(address=>bool) private WhitelistAddress;
     mapping(address=>uint256) public addressMintedBalance;
-    mapping(address=>uint) public addressTimedlay;  // Mint Timedlay
+    mapping(address=>uint) public addressTimedlay;
 
     event Klaytn17Burn(address _to, uint256 tokenId);
 
@@ -31,13 +31,12 @@ contract TestNFT is KIP17Full, KIP17Burnable, Ownable{
         string memory _initBaseURI,
         string memory _initNotRevealedUri
     )   
-        KIP17Burnable()
-        KIP17Full(_name, _symbol) public {
+        KIP17(_name, _symbol) {
         setBaseURI(_initBaseURI);
         setNotRevealedURI(_initNotRevealedUri);
     }
 
-     function _baseURI() internal view returns (string memory) {
+     function _baseURI() internal view override returns (string memory) {
          return baseURI;
     }
 
@@ -51,27 +50,24 @@ contract TestNFT is KIP17Full, KIP17Burnable, Ownable{
         require(supply + _mintAmount <= maxSupply, "max NFT limit exceeded");
 
         if(msg.sender != owner()){
-            // Whitelist on check
             if(onlyWhitelisted == true) {
                 require(WhitelistAddress[msg.sender],"user is not Whitelist");
                 uint256 ownerMintedCount = addressMintedBalance[msg.sender];
                 require(ownerMintedCount + _mintAmount <= nftPerAddressLimit, "max NFT per address exceeded");
             }
-            require(msg.value >= cost * _mintAmount, "insufficient funds");
+            require(msg.value >= mintPrice * _mintAmount, "insufficient funds");
 
-            // Mint Timedlay
             if(addressTimedlay[msg.sender] == 0){
-                addressTimedlay[msg.sender] = now;
+                addressTimedlay[msg.sender] = block.timestamp;
             }else{
-                require(now >= (addressTimedlay[msg.sender] + 5 seconds), "false");
-                addressTimedlay[msg.sender] = now;
+                require(block.timestamp >= (addressTimedlay[msg.sender] + 5 seconds), "false");
+                addressTimedlay[msg.sender] = block.timestamp;
             }
         }
 
-        // id start no.1
         for(uint256 i = 1; i <= _mintAmount; i++){
             addressMintedBalance[msg.sender]++;
-            _safemint(_to, supply + i,"");
+            _safeMint(_to, supply + i);
         }
     }
 
@@ -85,7 +81,7 @@ contract TestNFT is KIP17Full, KIP17Burnable, Ownable{
         return tokenIds;
     }
 
-    function tokenURI(uint256 tokenId) public view returns(string memory){
+    function tokenURI(uint256 tokenId) public view override returns(string memory){
         require(_exists(tokenId), "KIP17 metadata: URI query for nonexistent token");
 
         if(revealed == false) {
@@ -96,24 +92,14 @@ contract TestNFT is KIP17Full, KIP17Burnable, Ownable{
         string memory idstr;
 
         uint256 temp = tokenId;
-        idstr = String.uint2str(temp);
+        idstr = Strings.toString(temp);
 
         return bytes(currentBaseURI).length > 0 ? string(abi.encodePacked(currentBaseURI, idstr, baseExtension)) : "";
     }
 
-    function _safemint(address to, uint256 tokenId, bytes memory _data) internal {
-        _mint(to, tokenId);
-        require(_checkOnKIP17Received(address(0), to, tokenId, _data), "KIP17: transfer to non KIP17Receiver implementer");
-    }
-
-    function burnSingle(uint256 _tokenId) public {
-        burn(_tokenId);
-        emit Klaytn17Burn(msg.sender, _tokenId);
-    }
-
     // onlyOwner
-    function setCost(uint256 _newCost) public onlyOwner() {
-        cost = _newCost;
+    function setCost(uint256 _newMintPrice) public onlyOwner() {
+        mintPrice = _newMintPrice;
     }
 
     function setmaxMintAmount(uint256 _newmaxMintAmount) public onlyOwner() {
@@ -151,7 +137,7 @@ contract TestNFT is KIP17Full, KIP17Burnable, Ownable{
     function reveal() public onlyOwner {
         revealed = true;
     }
-
+    
     function withdraw(address payable toAdress) public onlyOwner {
         toAdress.transfer(address(this).balance);
     }
